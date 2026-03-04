@@ -1,2 +1,2 @@
-# IteMX3-
-Clavier ergonomique basé sur un nRF52840
+# CHANTIER
+Firmware en cours de réalisation
