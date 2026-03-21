@@ -1,0 +1,20 @@
+# SPDX-License-Identifier: Apache-2.0
+
+# Enable MPU
+CONFIG_ARM_MPU=y
+
+# Enable GPIO
+CONFIG_GPIO=y
+
+# Enable ADC for battery monitoring
+CONFIG_ADC=y
+
+# Enable SPI for LED strip
+CONFIG_SPI=y
+
+# Enable LED strip driver
+CONFIG_LED_STRIP=y
+CONFIG_WS2812_STRIP_SPI=y
+
+# Enable regulator driver for nPM1100
+CONFIG_REGULATOR=y

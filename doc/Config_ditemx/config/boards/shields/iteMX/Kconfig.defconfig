@@ -1,0 +1,16 @@
+    if SHIELD_diteMX_left
+
+config ZMK_KEYBOARD_NAME
+    default "ClavierMartinD"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
+endif
+
+if SHIELD_diteMX_left || SHIELD_diteMX_right
+
+config ZMK_SPLIT
+    default y
+
+endif

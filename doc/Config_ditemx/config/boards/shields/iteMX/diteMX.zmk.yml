@@ -1,0 +1,11 @@
+file_format: "1"
+id: diteMX
+name: diteMX
+type: shield
+url: https://github.com/MartinDrillon/zmk-config
+requires: [seeeduino_xiao_ble]
+features:
+  - keys
+siblings:
+  - diteMX_left
+  - diteMX_right

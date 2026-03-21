@@ -1,0 +1,5 @@
+# Build artifacts
+build/
+
+# PDF documentation (too large for git)
+*.pdf

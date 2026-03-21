@@ -1,0 +1,24 @@
+# SPDX-License-Identifier: Apache-2.0
+# Shield Kconfig defaults for ITEMX.
+# When building with ZMK, these merge with ZMK's own symbol definitions.
+# When building plain Zephyr, these create harmless unused symbols.
+
+if SHIELD_ITEMX_LEFT
+
+config ZMK_KEYBOARD_NAME
+    string
+    default "ITEMX"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    bool
+    default y
+
+endif
+
+if SHIELD_ITEMX_LEFT || SHIELD_ITEMX_RIGHT
+
+config ZMK_SPLIT
+    bool
+    default y
+
+endif

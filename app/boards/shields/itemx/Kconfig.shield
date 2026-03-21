@@ -1,0 +1,7 @@
+# SPDX-License-Identifier: Apache-2.0
+
+config SHIELD_ITEMX_LEFT
+    def_bool $(shields_list_contains,itemx_left)
+
+config SHIELD_ITEMX_RIGHT
+    def_bool $(shields_list_contains,itemx_right)

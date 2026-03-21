@@ -1,0 +1,169 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * ITEMX — Split ergonomic keyboard, left half (master)
+ * MCU: nRF52840-QIAA
+ * PMIC: nPM1100
+ */
+
+/dts-v1/;
+#include <nordic/nrf52840_qiaa.dtsi>
+#include <nordic/nrf52840_partition.dtsi>
+#include "itemx_nrf52840-pinctrl.dtsi"
+#include <zephyr/dt-bindings/regulator/npm1100.h>
+#include <zephyr/dt-bindings/led/led.h>
+
+/ {
+	model = "ITEMX Split Keyboard Left";
+	compatible = "itemx,nrf52840";
+
+	chosen {
+		zephyr,sram = &sram0;
+		zephyr,flash = &flash0;
+		zephyr,code-partition = &slot0_partition;
+		zephyr,ieee802154 = &ieee802154;
+	};
+
+	/* ── nPM1100 PMIC ────────────────────────────────────── */
+	pmic: pmic {
+		compatible = "nordic,npm1100";
+
+		/* ISET: P0.29 — USB current limit (low=100mA, high=500mA) */
+		nordic,iset-gpios = <&gpio0 29 GPIO_ACTIVE_HIGH>;
+
+		BUCK {
+			regulator-initial-mode = <NPM1100_MODE_AUTO>;
+			/* MODE: P1.15 — buck mode select (low=auto, high=PWM) */
+			nordic,mode-gpios = <&gpio1 15 GPIO_ACTIVE_HIGH>;
+		};
+	};
+
+	/* ── nPM1100 status inputs (active-low, open-drain) ─── */
+	pmic_status {
+		compatible = "gpio-leds";
+
+		/* CHG: P1.13 — charge indicator (open-drain, needs pull-up) */
+		pmic_chg: chg {
+			gpios = <&gpio1 13 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+			label = "PMIC Charging";
+		};
+
+		/* ERR: P1.10 — error indicator (open-drain, needs pull-up) */
+		pmic_err: err {
+			gpios = <&gpio1 10 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+			label = "PMIC Error";
+		};
+	};
+
+	/* ── Ship mode control ────────────────────────────────── */
+	pmic_ship {
+		compatible = "gpio-keys";
+
+		/* SHPACT: P0.02 — ship mode activate (high ≥200ms to enter) */
+		shpact: shpact {
+			gpios = <&gpio0 2 GPIO_ACTIVE_HIGH>;
+			label = "Ship Mode Activate";
+		};
+
+		/* SHPHLD: P1.11 — ship mode hold (low ≥200ms to exit) */
+		shphld: shphld {
+			gpios = <&gpio1 11 GPIO_ACTIVE_LOW>;
+			label = "Ship Mode Hold";
+		};
+	};
+
+	/* ── Battery monitoring ───────────────────────────────── */
+	bat_mon_en: bat_mon_en {
+		compatible = "regulator-fixed";
+		regulator-name = "BAT_MON_EN";
+		enable-gpios = <&gpio0 30 GPIO_ACTIVE_HIGH>;
+	};
+
+	vbatt: vbatt {
+		compatible = "voltage-divider";
+		io-channels = <&adc 7>;     /* AIN7 = P0.31 */
+		output-ohms  = <220000>;    /* 220 kΩ — résistance basse (vers GND) */
+		full-ohms    = <1730000>;   /* 220 kΩ + 1.51 MΩ = 1.73 MΩ total */
+		power-gpios = <&gpio0 30 GPIO_ACTIVE_HIGH>;
+	};
+
+	/* ── SK6812 LED strip (4x RGB) ───────────────────────── */
+	led_power: led_power {
+		compatible = "regulator-fixed";
+		regulator-name = "LED_POWER";
+		enable-gpios = <&gpio1 9 GPIO_ACTIVE_HIGH>;
+	};
+
+	/* ── Keyboard matrix pins are defined by the ZMK shield ── */
+
+	aliases {
+		led-strip = &led_strip;
+		sw0 = &shpact;
+		watchdog0 = &wdt0;
+	};
+};
+
+/* ── Enable internal DC/DC for efficiency ─────────────────── */
+&reg0 {
+	status = "okay";
+};
+
+&reg1 {
+	regulator-initial-mode = <NRF5X_REG_MODE_DCDC>;
+};
+
+/* ── ADC for battery voltage ──────────────────────────────── */
+&adc {
+	status = "okay";
+};
+
+/* ── SPI2 dedicated to LED strip ──────────────────────────── */
+&spi2 {
+	compatible = "nordic,nrf-spim";
+	status = "okay";
+	pinctrl-0 = <&spi2_default>;
+	pinctrl-1 = <&spi2_sleep>;
+	pinctrl-names = "default", "sleep";
+
+	led_strip: ws2812@0 {
+		compatible = "worldsemi,ws2812-spi";
+		reg = <0>;
+		spi-max-frequency = <4000000>;
+		chain-length = <4>;
+		color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
+		spi-one-frame = <0x70>;
+		spi-zero-frame = <0x40>;
+	};
+};
+
+/* ── GPIO ports ───────────────────────────────────────────── */
+&gpiote {
+	status = "okay";
+};
+
+&gpio0 {
+	status = "okay";
+};
+
+&gpio1 {
+	status = "okay";
+};
+
+/* ── Flash ────────────────────────────────────────────────── */
+&flash0 {
+	/*
+	 * For more information, see:
+	 * https://docs.zephyrproject.org/latest/services/storage/index.html
+	 */
+};
+
+/* ── Bluetooth ────────────────────────────────────────────── */
+&ieee802154 {
+	status = "okay";
+};
+
+/* ── USB ──────────────────────────────────────────────────── */
+zephyr_udc0: &usbd {
+	compatible = "nordic,nrf-usbd";
+	status = "okay";
+};

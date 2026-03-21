@@ -1,0 +1,6 @@
+board:
+  name: itemx
+  full_name: ITEMX Split Keyboard Left
+  vendor: custom
+  socs:
+  - name: nrf52840

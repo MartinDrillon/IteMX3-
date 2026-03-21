@@ -1,0 +1,5 @@
+config SHIELD_diteMX_left
+    def_bool $(shields_list_contains,diteMX_left)
+
+config SHIELD_diteMX_right
+    def_bool $(shields_list_contains,diteMX_right)

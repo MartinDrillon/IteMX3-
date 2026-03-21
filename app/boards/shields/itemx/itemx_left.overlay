@@ -1,0 +1,17 @@
+/* SPDX-License-Identifier: Apache-2.0
+ *
+ * ITEMX — left half overlay
+ */
+
+#include "itemx.dtsi"
+
+&kscan0 {
+    col-gpios
+        = <&gpio0 27 GPIO_ACTIVE_HIGH>  /* Col 1 — P0.27 */
+        , <&gpio0 26 GPIO_ACTIVE_HIGH>  /* Col 2 — P0.26 */
+        , <&gpio0  4 GPIO_ACTIVE_HIGH>  /* Col 3 — P0.04 */
+        , <&gpio0  7 GPIO_ACTIVE_HIGH>  /* Col 4 — P0.07 */
+        , <&gpio0 11 GPIO_ACTIVE_HIGH>  /* Col 5 — P0.11 */
+        , <&gpio0  6 GPIO_ACTIVE_HIGH>  /* Col 6 — P0.06 */
+        ;
+};

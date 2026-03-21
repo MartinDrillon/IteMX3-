@@ -1,0 +1,11 @@
+file_format: "1"
+id: itemx
+name: ITEMX
+type: shield
+url: https://github.com/MartinDrillon/itemx
+requires: [itemx]
+features:
+  - keys
+siblings:
+  - itemx_left
+  - itemx_right
