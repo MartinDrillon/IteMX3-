@@ -1,0 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+
+if BOARD_ITEMX_NRF52840
+
+endif # BOARD_ITEMX_NRF52840

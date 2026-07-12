@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: Apache-2.0
+
+if BOARD_ITEMX_NRF52840
+
+config BOARD
+	default "itemx_nrf52840"
+
+config BT_CTLR
+	default BT
+
+config HW_STACK_PROTECTION
+	default ARCH_HAS_STACK_PROTECTION
+
+endif # BOARD_ITEMX_NRF52840

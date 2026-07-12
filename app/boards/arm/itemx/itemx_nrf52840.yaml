@@ -1,0 +1,18 @@
+identifier: itemx_nrf52840
+name: ITEMX-NRF52840
+type: mcu
+arch: arm
+ram: 256
+flash: 1024
+toolchain:
+  - zephyr
+  - gnuarmemb
+supported:
+  - adc
+  - ble
+  - gpio
+  - spi
+  - usb_device
+  - usbd
+  - watchdog
+vendor: custom

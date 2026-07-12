@@ -88,12 +88,12 @@
 // |   TAB   |    À    |    B    |    É    |    .    |   ?/!   |                 |    K    |    V    |    L    |    M    |    X    |    Ç    |
 // |    ,    |    O    |    U    |    A    |    I    |    J    |                 |    G    |    T    |    S    |    N    |    R    |    F    |
 // |    W    |    Q    |    Y    |    È    |    P    |    Ê    |                 |   '/«   |    D    |    H    |    C    |    Z    |  raise  |
-//           |  LALT   |  LCTRL  |    E    |  lower  |  LSHFT  |                 |  BSPC   |  BSPC   |  SPACE  |  RSHFT  |  RALT   |
+//                    |  LCTRL  |    E    |  lower  |  LSHFT  |                 |  BSPC   |  BSPC   |  SPACE  |  RSHFT  |
             bindings = <
 &kp TAB      &kp BP_AGRV  &kp BP_B   &kp BP_EAIGU  &kp BP_DOT   &AHOH                         &kp BP_K   &kp BP_V    &kp BP_L   &kp BP_M   &kp BP_X   &kp BP_CCED
 &kp BP_COMMA &kp BP_O     &kp BP_U   &kp BP_A      &kp BP_I     &kp BP_J                      &kp BP_G   &kp BP_T    &kp BP_S   &kp BP_N   &kp BP_R   &kp BP_F
 &kp BP_W     &kp BP_Q     &kp BP_Y   &kp BP_EGRV   &kp BP_P     &kp BP_ECIR                   &APOGUI    &kp BP_D    &kp BP_H   &kp BP_C   &kp BP_Z   &mo 2
-                           &kp LALT   &kp LCTRL     &kp BP_E     &mo 1      &kp LSHFT  &kp BSPC &kp BSPC  &kp SPACE   &kp RSHFT  &kp RALT
+                                      &kp LCTRL     &kp BP_E     &mo 1      &kp LSHFT            &kp BSPC &kp BSPC  &kp SPACE   &kp RSHFT
             >;
         };
 
@@ -102,12 +102,12 @@
 // |    ^    |    9    |    8    |    7    |    6    |    =    |                 |    %    |    @    |    #    |    €    |    $    |    &    |
 // |    5    |    4    |    3    |    2    |    1    |    0    |                 |    {    |    (    |    )    |    «    |    »    |    }    |
 // |   ind   |    \    |    |    |    /    |    +    |    *    |                 |    ~    |    <    |    >    |    [    |    ]    |    °    |
-//           |  trans  |  trans  |  trans  |  trans  |  trans  |                 |  trans  |  trans  |  trans  |  trans  |  trans  |
+//                    |  trans  |  trans  |  trans  |  trans  |                 |  trans  |  trans  |  trans  |  trans  |
             bindings = <
 &kp BP_EXP   &kp BP_9     &kp BP_8   &kp BP_7      &kp BP_6     &kp BP_EQUAL                  &kp BP_PRCNT &kp BP_AT  &kp BP_HASH &kp BP_EURO &kp BP_DLLR &kp BP_AMPS
 &kp BP_5     &kp BP_4     &kp BP_3   &kp BP_2      &kp BP_1     &kp BP_0                      &kp BP_LBRC  &kp BP_LPAR &kp BP_RPAR &kp BP_GGA &kp BP_GDR  &kp BP_RBRC
 &kp BP_IND   &kp BP_BSLH  &kp BP_PIPE &kp BP_FSLH  &kp BP_PLUS  &kp BP_STAR                   &kp BP_TILDE &kp BP_LT  &kp BP_GT   &kp BP_LBKT &kp BP_RBKT &kp BP_DEG
-                           &trans     &trans        &trans       &trans      &trans     &trans   &trans      &trans      &trans      &trans
+                                      &trans        &trans       &trans      &trans            &trans   &trans      &trans      &trans
             >;
         };
 
@@ -116,12 +116,12 @@
 // |    &    |    $    |    €    |    #    |    @    |    %    |                 |   F12   |   F6    |   F7    |   F8    |   F9    |   F10   |
 // |    {    |    «    |    »    |    (    |    )    |    }    |                 |   F11   |   F1    |   F2    |   F3    |   F4    |   F5    |
 // |    °    |    <    |    >    |    [    |    ]    |    ~    |                 |         |         |         |         |         |         |
-//           |  trans  |  trans  |  trans  |  trans  |  trans  |                 |  trans  |  trans  |  trans  |  trans  |  trans  |
+//                    |  trans  |  trans  |  trans  |  trans  |                 |  trans  |  trans  |  trans  |  trans  |
             bindings = <
 &kp BP_AMPS  &kp BP_DLLR  &kp BP_EURO &kp BP_HASH  &kp BP_AT    &kp BP_PRCNT                  &kp F12    &kp F6      &kp F7     &kp F8     &kp F9     &kp F10
 &kp BP_LBRC  &kp BP_GGA   &kp BP_GDR  &kp BP_LPAR  &kp BP_RPAR  &kp BP_RBRC                   &kp F11    &kp F1      &kp F2     &kp F3     &kp F4     &kp F5
-&kp BP_DEG   &kp BP_LT    &kp BP_GT   &kp BP_LBKT  &kp BP_RBKT  &kp BP_TILDE                  &none      &none       &none      &none      &none      &trans
-                           &trans      &trans       &trans       &trans      &trans     &trans   &trans     &trans      &trans     &trans
+&kp BP_DEG   &kp BP_LT    &kp BP_GT   &kp BP_LBKT  &kp BP_RBKT  &kp BP_TILDE                  &out OUT_USB &out OUT_BLE &bt BT_PRV &bt BT_NXT &bt BT_CLR_ALL &trans
+                                      &trans       &trans       &trans      &trans            &trans   &trans     &trans      &trans
             >;
         };
     };

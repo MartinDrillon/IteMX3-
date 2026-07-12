@@ -1,5 +1,29 @@
-# Build artifacts
-build/
+# Build Zephyr
+build*/
+*.elf
+*.hex
+*.bin
+*.map
 
-# PDF documentation (too large for git)
-*.pdf
+# West modules
+modules/
+zephyr/
+bootloader/
+tools/
+
+# Cache west
+.west/
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+doc/Config_ditemx/zmk/
+doc/Config_ditemx/modules/
+doc/Config_ditemx/build/

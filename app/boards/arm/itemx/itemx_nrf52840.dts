@@ -1,0 +1,194 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * ITEMX — Split ergonomic keyboard, left half (master)
+ * MCU: nRF52840-QIAA
+ * PMIC: nPM1100
+ */
+
+/dts-v1/;
+#include <nordic/nrf52840_qiaa.dtsi>
+#include "itemx_nrf52840-pinctrl.dtsi"
+#include <zephyr/dt-bindings/regulator/npm1100.h>
+#include <zephyr/dt-bindings/led/led.h>
+
+/ {
+	model = "ITEMX Split Keyboard Left";
+	compatible = "itemx,nrf52840";
+
+	chosen {
+		zephyr,console = &uart0;
+		zephyr,shell-uart = &uart0;
+		zephyr,bt-mon-uart = &uart0;
+		zephyr,bt-c2h-uart = &uart0;
+		zephyr,sram = &sram0;
+		zephyr,flash = &flash0;
+		zephyr,ieee802154 = &ieee802154;
+		zmk,underglow = &led_strip;
+	};
+
+	pmic: pmic {
+		compatible = "nordic,npm1100";
+
+		nordic,iset-gpios = <&gpio0 29 GPIO_ACTIVE_HIGH>;
+
+		BUCK {
+			regulator-initial-mode = <NPM1100_MODE_PWM>;
+			nordic,mode-gpios = <&gpio1 15 GPIO_ACTIVE_HIGH>;
+		};
+	};
+
+	pmic_status {
+		compatible = "gpio-leds";
+
+		pmic_chg: chg {
+			gpios = <&gpio1 13 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+			label = "PMIC Charging";
+		};
+
+		pmic_err: err {
+			gpios = <&gpio1 10 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+			label = "PMIC Error";
+		};
+	};
+
+	pmic_ship {
+		compatible = "gpio-keys";
+
+		shpact: shpact {
+			gpios = <&gpio0 2 GPIO_ACTIVE_HIGH>;
+			label = "Ship Mode Activate";
+		};
+
+		shphld: shphld {
+			gpios = <&gpio1 11 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+			label = "Ship Mode Hold";
+		};
+	};
+
+	bat_mon_en: bat_mon_en {
+		compatible = "regulator-fixed";
+		regulator-name = "BAT_MON_EN";
+		enable-gpios = <&gpio0 30 GPIO_ACTIVE_HIGH>;
+	};
+
+	vbatt: vbatt {
+		compatible = "voltage-divider";
+		io-channels = <&adc 7>;
+		output-ohms  = <220000>;
+		full-ohms    = <1730000>;
+		power-gpios = <&gpio0 30 GPIO_ACTIVE_HIGH>;
+	};
+
+	led_power: led_power {
+		compatible = "zmk,ext-power-generic";
+		init-delay-ms = <10>;
+		control-gpios = <&gpio1 9 GPIO_ACTIVE_HIGH>;
+	};
+
+	behaviors {
+		hw_soft_off: hw_soft_off {
+			compatible = "zmk,behavior-soft-off";
+			#binding-cells = <0>;
+			hold-time-ms = <1000>;
+		};
+	};
+
+	soft_off_direct_kscan: soft_off_direct_kscan {
+		compatible = "zmk,kscan-gpio-direct";
+		input-keys = <&shphld>;
+		debounce-press-ms = <100>;
+		debounce-release-ms = <100>;
+		wakeup-source;
+	};
+
+	soft_off_sideband_behaviors {
+		compatible = "zmk,kscan-sideband-behaviors";
+		kscan = <&soft_off_direct_kscan>;
+		auto-enable;
+		wakeup-source;
+
+		soft_off {
+			row = <0>;
+			column = <0>;
+			bindings = <&hw_soft_off>;
+		};
+	};
+
+	soft_off_wakers {
+		compatible = "zmk,soft-off-wakeup-sources";
+		status = "okay";
+		wakeup-sources = <&soft_off_direct_kscan>;
+	};
+
+	aliases {
+		led-strip = &led_strip;
+		sw0 = &shpact;
+		watchdog0 = &wdt0;
+	};
+};
+
+&adc {
+	status = "okay";
+};
+
+&uart0 {
+	compatible = "nordic,nrf-uarte";
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-0 = <&uart0_default>;
+	pinctrl-1 = <&uart0_sleep>;
+	pinctrl-names = "default", "sleep";
+};
+
+&spi3 {
+	compatible = "nordic,nrf-spim";
+	status = "okay";
+	pinctrl-0 = <&spi3_default>;
+	pinctrl-1 = <&spi3_sleep>;
+	pinctrl-names = "default", "sleep";
+
+	led_strip: ws2812@0 {
+		compatible = "worldsemi,ws2812-spi";
+		reg = <0>;
+		spi-max-frequency = <4000000>;
+		chain-length = <4>;
+		color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
+		spi-one-frame = <0x70>;
+		spi-zero-frame = <0x40>;
+	};
+};
+
+&gpiote {
+	status = "okay";
+};
+
+&gpio0 {
+	status = "okay";
+};
+
+&gpio1 {
+	status = "okay";
+};
+
+&flash0 {
+	partitions {
+		compatible = "fixed-partitions";
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		storage_partition: partition@f8000 {
+			label = "storage";
+			reg = <0x000f8000 0x00008000>;
+		};
+	};
+};
+
+&ieee802154 {
+	status = "okay";
+};
+
+zephyr_udc0: &usbd {
+	compatible = "nordic,nrf-usbd";
+	status = "okay";
+};

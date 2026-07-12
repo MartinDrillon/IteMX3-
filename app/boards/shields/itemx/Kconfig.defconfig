@@ -6,11 +6,9 @@
 if SHIELD_ITEMX_LEFT
 
 config ZMK_KEYBOARD_NAME
-    string
     default "ITEMX"
 
 config ZMK_SPLIT_ROLE_CENTRAL
-    bool
     default y
 
 endif
@@ -18,7 +16,6 @@ endif
 if SHIELD_ITEMX_LEFT || SHIELD_ITEMX_RIGHT
 
 config ZMK_SPLIT
-    bool
     default y
 
 endif
