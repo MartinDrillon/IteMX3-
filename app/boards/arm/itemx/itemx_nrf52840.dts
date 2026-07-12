@@ -25,6 +25,7 @@
 		zephyr,flash = &flash0;
 		zephyr,ieee802154 = &ieee802154;
 		zmk,underglow = &led_strip;
+		zmk,battery = &vbatt;
 	};
 
 	pmic: pmic {
@@ -73,11 +74,26 @@
 	};
 
 	vbatt: vbatt {
-		compatible = "voltage-divider";
+		compatible = "zmk,battery-voltage-divider";
 		io-channels = <&adc 7>;
 		output-ohms  = <220000>;
 		full-ohms    = <1730000>;
 		power-gpios = <&gpio0 30 GPIO_ACTIVE_HIGH>;
+	};
+
+	battery_check {
+		compatible = "gpio-keys";
+
+		battery_check_btn: battery_check_btn {
+			/* P0.18 / nRESET net, reused as a plain input.
+			 * CONFIG_GPIO_AS_PINRESET is never set in this project,
+			 * so UICR PSELRESET stays unconfigured and this pin behaves
+			 * as a normal GPIO (SWD/OpenOCD reset uses AIRCR, not this pin).
+			 * External 100k pull-up per hardware design; button pulls low.
+			 */
+			gpios = <&gpio0 18 GPIO_ACTIVE_LOW>;
+			label = "Battery Check Button";
+		};
 	};
 
 	led_power: led_power {
