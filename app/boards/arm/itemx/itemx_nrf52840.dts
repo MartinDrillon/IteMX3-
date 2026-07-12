@@ -108,6 +108,15 @@
 			#binding-cells = <0>;
 			hold-time-ms = <1000>;
 		};
+
+		/* Internal split-RPC endpoint used by the central to forward its
+		 * BLE host-connection state to the peripheral. Never bound in the
+		 * keymap; invoked by name ("BLEHOST") from ble_status_led.c. */
+		ble_host_status: ble_host_status {
+			compatible = "zmk,behavior-host-status";
+			#binding-cells = <0>;
+			label = "BLEHOST";
+		};
 	};
 
 	soft_off_direct_kscan: soft_off_direct_kscan {
