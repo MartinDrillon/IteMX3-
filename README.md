@@ -16,7 +16,6 @@ Pour plus de détails sur le projet, voir ici et ici :
 ![PCB](Images/1000047384.jpg)
 ![PCB](Images/pcb_render.png)
 ![PCB](Images/1000047383.jpg)
-![PCB](Images/1000047384.jpg)
 ![PCB](Images/pcb_route.png)
 ![PCB](Images/1000047385.jpg)
 
